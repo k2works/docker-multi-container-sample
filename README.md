@@ -184,6 +184,12 @@ $ docker rmi -f $(docker images -q -a)
 $ docker-compose up
 ```
 
+#### 後片付け
+```
+$ exit
+$ vagrant destroy
+```
+
 # 参照
 + [DockerHub rails](https://hub.docker.com/_/rails/)
 + [DockerHub mysql](https://hub.docker.com/_/mysql/)
