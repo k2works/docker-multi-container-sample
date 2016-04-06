@@ -1,15 +1,6 @@
 # 目的
 DockerMultiContanierを使ったRailsアプリケーションサンプル
 
-# 構成
-
-+ 開発環境構築
-
-# 詳細
-
-## 開発環境構築
-## アプリケーション実行
-
 # 前提
 | ソフトウェア     | バージョン    | 備考         |
 |:---------------|:-------------|:------------|
@@ -19,6 +10,12 @@ DockerMultiContanierを使ったRailsアプリケーションサンプル
 
 + DockerHubのアカウントを作っている
 
+# 構成
+
++ 開発環境構築
++ アプリケーション実行
+
+# 詳細
 ## 開発環境構築
 ### 実行環境起動
 ```
@@ -197,7 +194,7 @@ $ vagrant destroy
 
 ### Railsアプリケーションセットアップ
 ```
-$ docker-compose run web rails new app
+$ docker-compose run web rails new --skip-bundle app
 $ cp -r container app
 $ cp Gemfile app/
 $ cp Gemfile.lock app/
