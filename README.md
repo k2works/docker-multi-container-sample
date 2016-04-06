@@ -195,6 +195,7 @@ $ vagrant destroy
 
 ### Railsアプリケーションセットアップ
 ```
+$ cd /vagrant
 $ docker-compose run web rails new --skip-bundle app
 $ cp -r container app
 $ cp Gemfile app/
