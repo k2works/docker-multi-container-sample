@@ -8,7 +8,9 @@ DockerMultiContanierを使ったRailsアプリケーションサンプル
 # 詳細
 
 ## 開発環境構築
-### 前提
+## アプリケーション実行
+
+# 前提
 | ソフトウェア     | バージョン    | 備考         |
 |:---------------|:-------------|:------------|
 | docker         | 1.10.3       |             |
@@ -17,6 +19,7 @@ DockerMultiContanierを使ったRailsアプリケーションサンプル
 
 + DockerHubのアカウントを作っている
 
+## 開発環境構築
 ### 実行環境起動
 ```
 $ vagrant up
@@ -170,7 +173,7 @@ $ docker push k2works/my-rails-app-mysql
 proxyイメージを作成してプッシュする
 ```
 $ docker build -t k2works/my-rails-app-nginx -f Dockerfile-nginx .
-$ docker push k2works/my-rails-app-nginx 
+$ docker push k2works/my-rails-app-nginx
 ```
 
 #### docker-composeをDockerHubからプルして実行できるようにする
@@ -188,6 +191,26 @@ $ docker-compose up
 ```
 $ exit
 $ vagrant destroy
+```
+
+## アプリケーション実行
+
+### Railsアプリケーションセットアップ
+```
+$ docker-compose run web rails new app
+$ cp -r container app
+$ cp Gemfile app/
+$ cp Gemfile.lock app/
+$ cp docker-compose.yml app/
+$ cd app/
+$ docker-compose up
+```
+### 後片付け
+```
+$ docker rm -v $(docker ps -a -q)
+$ docker rmi $(docker images -q)
+$ cd ..
+$ rm -rf app/
 ```
 
 # 参照
