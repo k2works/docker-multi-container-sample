@@ -44,7 +44,7 @@ $ docker stop some-rails-app
 $ docker rm some-rails-app
 ```
 
-以下の内容'docker-compose.yml'を作成する
+以下の内容`docker-compose.yml`を作成する
 ```
 version: '2'
 services:
@@ -71,7 +71,7 @@ $ docker build -t my-rails-app-mysql -f Dockerfile-mysql .
 `config/database.yml`を編集する
 
 ```
-$ cp /vagrant/database.yml ./config/
+$ cp /vagrant/container/web/config/database.yml ./config/
 ```
 `Gemfile`を編集してコンテナを再ビルドする
 ```
@@ -110,7 +110,7 @@ $ docker-compose up
 `proxy`ディレクトを追加する
 
 ```
-$ cp -r /vagrant/proxy .
+$ cp -r /vagrant/container .
 ```
 
 `Dockerfile-nginx`を作成して以下のコマンドを実行する
@@ -138,8 +138,8 @@ services:
   proxy:
     image: my-rails-app-nginx
     volumes:
-      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
-      - ./proxy/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./container/proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./container/proxy/conf.d/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
     depends_on:
@@ -180,7 +180,8 @@ $ cp /vagrant/docker-compose.yml .
 ```
 コンテナイメージを初期化して再実行する
 ```
-$ docker rmi -f $(docker images -q -a)
+$ docker rm -v $(docker ps -a -q)
+$ docker rmi $(docker images -q)
 $ docker-compose up
 ```
 
