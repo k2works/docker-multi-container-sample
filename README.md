@@ -1,5 +1,5 @@
 # 目的
-DockerMultiContanierを使ったRailsアプリケーションサンプル
+DockerMultiContanierを使ったRailsアプリケーションサンプルをセットアップする
 
 # 前提
 | ソフトウェア     | バージョン    | 備考         |
@@ -21,6 +21,7 @@ DockerMultiContanierを使ったRailsアプリケーションサンプル
 ```
 $ vagrant up
 $ vagrant ssh
+$ cd /vagrant/
 $ mkdir sample-app
 $ cd sample-app
 ```
@@ -34,7 +35,7 @@ $ docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:2.3 bundle install
 
 `Dockerfile-rails`を作成して以下のコマンドを実行する
 ```
-$ cp /vagrant/Dockerfile-rails .
+$ cp ../Dockerfile-rails .
 $ docker build -t my-rails-app -f Dockerfile-rails .
 $ docker run --name some-rails-app -p 3000:3000 -d my-rails-app
 ```
@@ -65,13 +66,13 @@ $ docker-compose up
 `Dockerfile-mysql`を作成して以下のコマンドを実行する
 
 ```
-$ cp /vagrant/Dockerfile-mysql .
+$ cp ../Dockerfile-mysql .
 $ docker build -t my-rails-app-mysql -f Dockerfile-mysql .
 ```
 `config/database.yml`を編集する
 
 ```
-$ cp /vagrant/container/web/config/database.yml ./config/
+$ cp ../container/web/config/database.yml ./config/
 ```
 `Gemfile`を編集してコンテナを再ビルドする
 ```
@@ -110,13 +111,13 @@ $ docker-compose up
 `proxy`ディレクトを追加する
 
 ```
-$ cp -r /vagrant/container .
+$ cp -r ../container .
 ```
 
 `Dockerfile-nginx`を作成して以下のコマンドを実行する
 
 ```
-$ cp /vagrant/Dockerfile-nginx .
+$ cp ../Dockerfile-nginx .
 $ docker build -t my-rails-app-nginx -f Dockerfile-nginx .
 ```
 
@@ -141,7 +142,7 @@ services:
       - ./container/proxy/nginx.conf:/etc/nginx/nginx.conf
       - ./container/proxy/conf.d/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - web            
 ```
@@ -149,7 +150,7 @@ docker-composeを実行する
 ```
 $ docker-compose up
 ```
-http://127.0.0.1:8080/ に接続して動作を確認する  
+http://127.0.0.1:8080/ に接続して動作を確認する
 動作を確認したらCtr-cで終了する
 
 #### コンテナイメージをDockerHubにプッシュする
@@ -176,7 +177,7 @@ $ docker push k2works/my-rails-app-nginx
 #### docker-composeをDockerHubからプルして実行できるようにする
 docker-compose.ymlを編集する
 ```
-$ cp /vagrant/docker-compose.yml .
+$ cp ../docker-compose.yml .
 ```
 コンテナイメージを初期化して再実行する
 ```
@@ -189,27 +190,6 @@ $ docker-compose up
 ```
 $ exit
 $ vagrant destroy
-```
-
-## アプリケーション実行
-
-### Railsアプリケーションセットアップ
-```
-$ cd /vagrant
-$ docker-compose run web rails new --skip-bundle app
-$ cp -r container app
-$ cp Gemfile app/
-$ cp Gemfile.lock app/
-$ cp docker-compose.yml app/
-$ cd app/
-$ docker-compose up
-```
-### 後片付け
-```
-$ docker rm -v $(docker ps -a -q)
-$ docker rmi $(docker images -q)
-$ cd ..
-$ rm -rf app/
 ```
 
 # 参照

@@ -15,6 +15,6 @@ services:
       - ./container/proxy/nginx.conf:/etc/nginx/nginx.conf
       - ./container/proxy/conf.d/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - web
